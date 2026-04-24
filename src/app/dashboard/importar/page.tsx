@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import { Upload, FileSpreadsheet, X, CheckCircle2, AlertCircle, Loader2, ChevronRight, ArrowLeftRight } from "lucide-react";
 import Link from "next/link";
+import { EntityLogo } from "@/components/ui/EntitySelect";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -29,23 +30,25 @@ interface MatchResult {
 // ── Bank / Exchange sources ───────────────────────────────────────────────────
 
 const BANK_SOURCES = [
-  { id: "mercadopago", label: "Mercado Pago", emoji: "💙" },
-  { id: "brubank", label: "Brubank", emoji: "🟣" },
-  { id: "galicia", label: "Banco Galicia", emoji: "🔴" },
-  { id: "bbva", label: "BBVA", emoji: "🔵" },
-  { id: "santander", label: "Santander", emoji: "🟥" },
-  { id: "naranjaX", label: "Naranja X", emoji: "🟠" },
-  { id: "otro", label: "Otro banco", emoji: "🏦" },
+  { id: "mercadopago", label: "Mercado Pago", domain: "mercadopago.com.ar" },
+  { id: "brubank",     label: "Brubank",       domain: "brubank.com" },
+  { id: "galicia",    label: "Banco Galicia",  domain: "galicia.com.ar" },
+  { id: "bbva",       label: "BBVA",           domain: "bbva.com.ar" },
+  { id: "santander",  label: "Santander",      domain: "santander.com.ar" },
+  { id: "naranjaX",   label: "Naranja X",      domain: "naranjax.com" },
+  { id: "uala",       label: "Ualá",           domain: "uala.com.ar" },
+  { id: "otro",       label: "Otro banco",     domain: "" },
 ];
 
 const EXCHANGE_SOURCES = [
-  { id: "binance_p2p", label: "Binance P2P", emoji: "🟡" },
-  { id: "binance_spot", label: "Binance Spot", emoji: "🟡" },
-  { id: "bitso", label: "Bitso", emoji: "🟢" },
-  { id: "lemon", label: "Lemon Cash", emoji: "🍋" },
-  { id: "ripio", label: "Ripio", emoji: "🔷" },
-  { id: "buenbit", label: "Buenbit", emoji: "🔶" },
-  { id: "otro", label: "Otro exchange", emoji: "🌐" },
+  { id: "binance_p2p",  label: "Binance P2P",  domain: "binance.com" },
+  { id: "binance_spot", label: "Binance Spot",  domain: "binance.com" },
+  { id: "bitso",        label: "Bitso",         domain: "bitso.com" },
+  { id: "lemon",        label: "Lemon Cash",    domain: "lemon.me" },
+  { id: "ripio",        label: "Ripio",         domain: "ripio.com" },
+  { id: "buenbit",      label: "Buenbit",       domain: "buenbit.com" },
+  { id: "bybit",        label: "Bybit",         domain: "bybit.com" },
+  { id: "otro",         label: "Otro exchange", domain: "" },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -175,7 +178,12 @@ function SourceSelector({
               : "border-white/5 bg-arbi-surface-2 text-slate-400 hover:border-white/20 hover:text-white"
           }`}
         >
-          <div className="text-xl mb-1">{item.emoji}</div>
+          <div className="flex justify-center mb-1">
+            {item.domain
+              ? <EntityLogo domain={item.domain} name={item.label} size={28} />
+              : <span className="text-xl">🏦</span>
+            }
+          </div>
           <div className="text-xs leading-tight">{item.label}</div>
         </button>
       ))}
