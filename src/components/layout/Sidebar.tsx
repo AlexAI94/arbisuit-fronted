@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   TrendingUp, LayoutDashboard, ArrowLeftRight,
   FileText, Bell, Settings, LogOut, ChevronDown,
@@ -24,7 +24,13 @@ const NAV_ITEMS = [
 
 function NavContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout } = useAuthStore();
+
+  function handleLogout() {
+    logout();
+    router.push("/auth/login");
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -101,7 +107,7 @@ function NavContent({ onNavigate }: { onNavigate?: () => void }) {
             <p className="text-xs text-muted-foreground truncate">{user?.email ?? ""}</p>
           </div>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="text-muted-foreground hover:text-arbi-red transition-colors"
             title="Cerrar sesión"
           >
